@@ -148,8 +148,8 @@
 </head>
 <body>
   <header>
-    <h1>to-markdown</h1>
-    <a style="float: right" href="https://github.com/domchristie/to-markdown">Source on GitHub</a>
+    <h1>Get patch notes</h1>
+    <a style="float: right" href="https://github.com/judge2020/Battle-net-patch-notes/tree/gh-pages">Source on GitHub</a>
   </header>
   <div class="row cf toolbar">
     <div class="col">
@@ -168,6 +168,7 @@
   </div>
   <script type="text/javascript">
       function fill() {
+          document.getElementById("input").innerHTML = "Trying, please wait...";
           var e = document.getElementById("myInput");
           var strUser = e.options[e.selectedIndex].value;
           var url = "";
@@ -188,21 +189,9 @@
           var client = new HttpClient();
           client.get('get.php?url=' + url, function(response) {
               document.getElementById("input").innerHTML = response;
+              document.getElementById("output").value = toMarkdown(document.getElementById("input").value, { gfm: document.getElementById('gfm').checked });
           });
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
       var HttpClient = function() {
           this.get = function(aUrl, aCallback) {
               var anHttpRequest = new XMLHttpRequest();
@@ -219,16 +208,7 @@
   <div class="row cf">
     <div class="col">
       <h2>HTML</h2>
-      <textarea id="input" cols="100" rows="10"><h3>Some HTML</h3>
-
-<p>Hello world! This demonstrates <a href="https://github.com/domchristie/to-markdown">to-markdown</a> – an HTML to Markdown converter.</p>
-
-<hr />
-
-<ol>
-  <li>Number 1</li>
-  <li>Number Two</li>
-</ol></textarea>
+      <textarea id="input" cols="100" rows="10">Enter HTML here</textarea>
     </div>
 
     <div class="col">
@@ -238,6 +218,7 @@
   </div>
   <footer>
     <p>to-markdown is copyright &copy; 2011-15 <a href="http://domchristie.co.uk">Dom Christie</a> and is released under the MIT licence.</p>
-  </footer>
+      <p>expanded by <a href="https://judge2020.com"> Judge2020</a></p>
+  </footer>s
 </body>
 </html>
