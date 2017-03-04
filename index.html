@@ -118,7 +118,6 @@
   function updateOutput() {
     output.value = toMarkdown(input.value, { gfm: gfm.checked });
   }
-
   document.addEventListener("DOMContentLoaded", function(event) {
     input = document.getElementById('input');
     output = document.getElementById('output');
@@ -154,9 +153,69 @@
   </header>
   <div class="row cf toolbar">
     <div class="col">
-      <label><input type="checkbox" id="gfm"> GitHub Flavored Markdown</label>
+      <label><input type="checkbox" id="gfm" hidden></label>
     </div>
   </div>
+  <br>
+  <div align="center">
+  <p>Select game to autofill: </p>
+  <select id="myInput">
+    <option value="owl">Overwatch Live</option>
+    <option value="owp">Overwatch PTR</option>
+    <option value="hs">Hearthstone</option>
+  </select>
+  <button id="fill" onclick="fill()">Fill!</button>
+  </div>
+  <script type="text/javascript">
+      function fill() {
+          var e = document.getElementById("myInput");
+          var strUser = e.options[e.selectedIndex].value;
+          var url = "";
+          switch (strUser){
+              case "owl":{
+                  url = "https://us.battle.net/connect/en/app/Pro/patch-notes?productType=Live";
+                  break;
+              }
+              case "owp":{
+                  url = "https://us.battle.net/connect/en/app/Pro/patch-notes?productType=ptr";
+                  break;
+              }
+              case "hs":{
+                  url = "https://us.battle.net/connect/en/app/wtcg/patch-notes?productType=wtcg";
+                  break;
+              }
+          }
+          var client = new HttpClient();
+          client.get('get.php?url=' + url, function(response) {
+              document.getElementById("input").innerHTML = response;
+          });
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+      var HttpClient = function() {
+          this.get = function(aUrl, aCallback) {
+              var anHttpRequest = new XMLHttpRequest();
+              anHttpRequest.onreadystatechange = function() {
+                  if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                      aCallback(anHttpRequest.responseText);
+              }
+
+              anHttpRequest.open( "GET", aUrl, true );
+              anHttpRequest.send( null );
+          }
+      }
+  </script>
   <div class="row cf">
     <div class="col">
       <h2>HTML</h2>
